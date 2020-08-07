@@ -22,14 +22,25 @@ commander
     ".serverlessrc"
   )
   .option("-j --json", "Treat value as JSON string", false)
-  .action((key, value, { targetFile, json }) => {
+  .option("-s --stage <stage>", "Set value within a stage key")
+  .action((key, value, { targetFile, json, stage }) => {
     if (json) value = JSON.parse(value);
-    updateServerlessConfig({ [key]: value }, commander.path, targetFile);
+    if (stage) {
+      const o = getServerlessConfig(commander.path);
+      const s = o[stage];
+      s[key] = value;
+      updateServerlessConfig({ [stage]: s }, commander.path, targetFile);
+    } else {
+      updateServerlessConfig({ [key]: value }, commander.path, targetFile);
+    }
   });
 const dep = commander
   .command("dependency")
-  .description("Subcommands for dependency management");
-
+  .description("Subcommands for dependency management")
+  .option(
+    "-s --stage <stage>",
+    "Set stage key for condition for this dependency"
+  );
 dep
   .command("add <path> [name]")
   .description("add a dependency")
@@ -40,12 +51,23 @@ dep
     }
     if (name) {
       const thisConfig = getServerlessConfig(commander.path);
-      if (!thisConfig.dependencies) thisConfig.dependencies = {};
-      thisConfig.dependencies[name] = path;
-      updateServerlessConfig(
-        { dependencies: thisConfig.dependencies },
-        commander.path
-      );
+      if (dep.stage) {
+        if (!thisConfig[dep.stage])
+          thisConfig[dep.stage] = { dependencies: {} };
+        if (!thisConfig[dep.stage].dependencies) thisConfig.dependencies = {};
+        thisConfig[dep.stage].dependencies[name] = path;
+        updateServerlessConfig(
+          { [dep.stage]: thisConfig[dep.stage] },
+          commander.path
+        );
+      } else {
+        if (!thisConfig.dependencies) thisConfig.dependencies = {};
+        thisConfig.dependencies[name] = path;
+        updateServerlessConfig(
+          { dependencies: thisConfig.dependencies },
+          commander.path
+        );
+      }
     } else {
       console.error(
         "Could not add dependency at path",
