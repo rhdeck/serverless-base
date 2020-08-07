@@ -31,12 +31,16 @@ const dep = commander
   .description("Subcommands for dependency management");
 
 dep
-  .command("add <path>")
+  .command("add <path> [name]")
   .description("add a dependency")
-  .action((path) => {
-    const { name } = getServerlessConfig(path);
+  .action((path, name) => {
+    if (!name) {
+      const o = getServerlessConfig(path);
+      name = o.name;
+    }
     if (name) {
       const thisConfig = getServerlessConfig(commander.path);
+      if (!thisConfig.dependencies) thisConfig.dependencies = {};
       thisConfig.dependencies[name] = path;
       updateServerlessConfig(
         { dependencies: thisConfig.dependencies },
@@ -55,11 +59,13 @@ dep
   .description("remove a dependency")
   .action((name) => {
     const thisConfig = getServerlessConfig(commander.path);
-    delete thisConfig.dependencies[name];
-    updateServerlessConfig(
-      { dependencies: thisConfig.dependencies },
-      commander.path
-    );
+    if (thisConfig.dependencies) {
+      delete thisConfig.dependencies[name];
+      updateServerlessConfig(
+        { dependencies: thisConfig.dependencies },
+        commander.path
+      );
+    }
   });
 commander.parse(process.argv);
 
