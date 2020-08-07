@@ -1,7 +1,10 @@
 import { join } from "path";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 
-//Load the serverless config for a package
+/**
+ * Get the serverless object from package.json, serverless.config.js and .serverlessrc
+ * @param path Path to serverless package (default is current path)
+ */
 export function getServerlessConfig(path: string = process.cwd()) {
   //Get from each type of file
   let out: { [key: string]: any } = {};
@@ -25,6 +28,12 @@ export function getServerlessConfig(path: string = process.cwd()) {
   }
   return out;
 }
+/**
+ * Save a new config map
+ * @param newConfigMap New set of serverless considerations
+ * @param path Path to the serverless package (default current path)
+ * @param targetFile WHether to amend package.json or recreate .serverlessrc (defaults to the latter)
+ */
 export function writeServerlessConfig(
   newConfigMap: { [key: string]: any },
   path: string = process.cwd(),
@@ -46,6 +55,12 @@ export function writeServerlessConfig(
       throw new Error("Not a valid target for writing");
   }
 }
+/**
+ * Update a serverless config (shallow only - replacing a tree element replaces the whole tree)
+ * @param configUpdates Map of updates to change (e.g. `{name: "newName"}`)
+ * @param path Path to the serverless package (default is current dir)
+ * @param targetFile Whether to update package.json or .serverlessrc - defaults to latter
+ */
 export function updateServerlessConfig(
   configUpdates: { [key: string]: any },
   path: string = process.cwd(),

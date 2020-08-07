@@ -26,6 +26,41 @@ commander
     if (json) value = JSON.parse(value);
     updateServerlessConfig({ [key]: value }, commander.path, targetFile);
   });
+const dep = commander
+  .command("dependency")
+  .description("Subcommands for dependency management");
+
+dep
+  .command("add <path>")
+  .description("add a dependency")
+  .action((path) => {
+    const { name } = getServerlessConfig(path);
+    if (name) {
+      const thisConfig = getServerlessConfig(commander.path);
+      thisConfig.dependencies[name] = path;
+      updateServerlessConfig(
+        { dependencies: thisConfig.dependencies },
+        commander.path
+      );
+    } else {
+      console.error(
+        "Could not add dependency at path",
+        path,
+        "because it is not a serverless package"
+      );
+    }
+  });
+dep
+  .command("remove <name>")
+  .description("remove a dependency")
+  .action((name) => {
+    const thisConfig = getServerlessConfig(commander.path);
+    delete thisConfig.dependencies[name];
+    updateServerlessConfig(
+      { dependencies: thisConfig.dependencies },
+      commander.path
+    );
+  });
 commander.parse(process.argv);
 
 export { commander };

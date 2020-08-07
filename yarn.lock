@@ -860,12 +860,10 @@ commander@^6.0.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-6.0.0.tgz#2b270da94f8fb9014455312f829a1129dbf8887e"
   integrity sha512-s7EA+hDtTYNhuXkTlhqew4txMZVdszBmKWSPEMxGr8ru8JXR7bLUFIAtPhcSuFdJQ0ILMxnJi8GkQL0yvDy/YA==
 
-commanderdoc@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/commanderdoc/-/commanderdoc-0.1.1.tgz#bcb1471c70390e6715dc7512dc883cc5e443305f"
-  integrity sha512-wbjpBlRq1dH7MljO20R3JNjrScCIfyVevylB3WeoYUmmTwRaGlnlthcE6d25DOV2ISRu9JgNsxjIEjmSfxWaVg==
-  dependencies:
-    commander "^6.0.0"
+commanderdoc@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/commanderdoc/-/commanderdoc-0.1.11.tgz#b40eda343bc9e70848bf11bb55b4c1ad8426077b"
+  integrity sha512-iupMyMJ8Bb77veh29SY0924bLIhZqfqBUddVYHFbNVoMNlpJIHyRqfKUt2MsfSCtaWKAcDbiseccYMM0Zb7QiQ==
 
 compare-func@^1.3.1:
   version "1.3.4"
