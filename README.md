@@ -2,7 +2,7 @@
 <a name="readmemd"></a>
 
 
-# @raydeck/serverless-base - v1.0.3
+# @raydeck/serverless-base - v1.0.4
 
 # Usage
 ```bash
@@ -26,18 +26,21 @@ serverless-base set [options] <key> <value>
 ### Options
 * -t --targetFile \<`filename`> File to update - one of package.json or .serverlessrc (default: `.serverlessrc`)
 * -j --json Treat value as JSON string 
+* -s --stage \<`stage`> Set value within a stage key 
 ## dependency
 Subcommands for dependency management
 ### Usage
 ```bash
 serverless-base dependency [options] [command]
 ```
+### Options
+* -s --stage \<`stage`> Set stage key for condition for this dependency 
 ### Subcommands
-#### add \<`path`>
+#### add \<`path`> [`name`]
 add a dependency
 ##### Usage
 ```bash
-serverless-base dependency add [options] <path>
+serverless-base dependency add [options] <path> [name]
 ```
 #### remove \<`name`>
 remove a dependency
@@ -65,8 +68,12 @@ serverless-base dependency remove [options] <name>
 • **dep**: *Command‹›* = commander
   .command("dependency")
   .description("Subcommands for dependency management")
+  .option(
+    "-s --stage <stage>",
+    "Set stage key for condition for this dependency"
+  )
 
-*Defined in [bin.ts:29](https://github.com/rhdeck/serverless-base/blob/1a93d78/src/bin.ts#L29)*
+*Defined in [bin.ts:37](https://github.com/rhdeck/serverless-base/blob/3e20975/src/bin.ts#L37)*
 
 ## Functions
 
@@ -74,7 +81,7 @@ serverless-base dependency remove [options] <name>
 
 ▸ **getServerlessConfig**(`path`: string): *object*
 
-*Defined in [index.ts:8](https://github.com/rhdeck/serverless-base/blob/1a93d78/src/index.ts#L8)*
+*Defined in [index.ts:8](https://github.com/rhdeck/serverless-base/blob/3e20975/src/index.ts#L8)*
 
 Get the serverless object from package.json, serverless.config.js and .serverlessrc
 
@@ -94,7 +101,7 @@ ___
 
 ▸ **updateServerlessConfig**(`configUpdates`: object, `path`: string, `targetFile`: "package.json" | ".serverlessrc"): *void*
 
-*Defined in [index.ts:64](https://github.com/rhdeck/serverless-base/blob/1a93d78/src/index.ts#L64)*
+*Defined in [index.ts:64](https://github.com/rhdeck/serverless-base/blob/3e20975/src/index.ts#L64)*
 
 Update a serverless config (shallow only - replacing a tree element replaces the whole tree)
 
@@ -114,7 +121,7 @@ ___
 
 ▸ **writeServerlessConfig**(`newConfigMap`: object, `path`: string, `targetFile`: "package.json" | ".serverlessrc"): *void*
 
-*Defined in [index.ts:37](https://github.com/rhdeck/serverless-base/blob/1a93d78/src/index.ts#L37)*
+*Defined in [index.ts:37](https://github.com/rhdeck/serverless-base/blob/3e20975/src/index.ts#L37)*
 
 Save a new config map
 
