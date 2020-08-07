@@ -47,6 +47,10 @@
   "liveLink": {
     "liveLinks": {
       "commanderdoc": "../commander-inspect"
-    }
+    },
+    "ignoreMasks": [
+      "lib/*",
+      "package.json"
+    ]
   }
 }
