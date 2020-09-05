@@ -27,6 +27,7 @@ commander
     if (json) value = JSON.parse(value);
     if (stage) {
       const o = getServerlessConfig(commander.path);
+      if (!o[stage]) o[stage] = {};
       const s = o[stage];
       s[key] = value;
       updateServerlessConfig({ [stage]: s }, commander.path, targetFile);
